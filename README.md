@@ -1,27 +1,54 @@
+# GeoTIFF Sun'iy Yo'ldosh Mozaika Yaratuvchi
 # GeoTIFF Satellite Mosaic Creator
+
+🇺🇿 **O'zbek tilida professional GIS dasturi** | Professional GIS Application in Uzbek
+
+Ko'pburchak koordinatalaridan yuqori sifatli georeferenslangan sun'iy yo'ldosh tasvir mozaikalarini yaratish uchun professional Windows desktop GIS dasturi.
 
 A professional Windows desktop GIS application for generating high-resolution georeferenced satellite image mosaics from polygon coordinates.
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![Language](https://img.shields.io/badge/til-O'zbek%20%F0%9F%87%BA%F0%9F%87%BF-green)
 
-## 📋 Overview
+## 📋 Umumiy Ma'lumot | Overview
+
+**🇺🇿 O'zbek tilida:**
+
+GeoTIFF Sun'iy Yo'ldosh Mozaika Yaratuvchi - kadastr va geofazoviy mutaxassislar uchun mo'ljallangan to'liq funksional desktop dastur. U sun'iy yo'ldosh tasvir plitalarini avtomatik yuklab olish va istalgan ko'pburchak hudud uchun ArcGIS-mos GeoTIFF mozaikalarini yaratish jarayonini avtomatlashtiradi.
+
+**🌍 English:**
 
 GeoTIFF Satellite Mosaic Creator is a comprehensive desktop application designed for cadastral and geospatial professionals. It automates the process of downloading satellite imagery tiles and generating ArcGIS-compatible GeoTIFF mosaics for any polygon area of interest.
 
-### Key Features
+### 🌟 Asosiy Imkoniyatlar | Key Features
 
-- **Multiple Input Formats**: Manual entry, TXT, CSV, Shapefile (.shp), GeoJSON
-- **Flexible Coordinate Systems**: WGS84, UTM zones, custom projections
-- **Automatic Tile Calculation**: Optimal zoom level and tile selection
-- **Multi-Threaded Downloads**: Fast, concurrent tile downloading with caching
-- **Seamless Mosaicking**: Automatic tile merging with no visible seams
-- **Polygon Clipping**: Precise boundary extraction
-- **ArcGIS Compatibility**: Full compatibility with ArcMap 10.8 and ArcGIS Pro
-- **Professional Export**: GeoTIFF with embedded CRS, compression, and overviews
-- **Batch Processing**: Process multiple polygons in queue
-- **Modern UI**: Professional dark/light themes
+**🇺🇿 O'zbek tilida interfeys:**
+- ✅ **Interaktiv Xarita**: Folium asosida polygon to'g'ridan-to'g'ri xaritada chizish
+- ✅ **Turli Kiritish Formatlari**: Qo'lda kiritish, TXT, CSV, Shapefile (.shp), GeoJSON
+- ✅ **Koordinata Tizimlari**: WGS84, UTM zonalar, maxsus proyeksiyalar
+- ✅ **Avtomatik Hisoblash**: Optimal zoom darajasi va plitka tanlovi
+- ✅ **Ko'p Oqimli Yuklab Olish**: Tez, parallel yuklab olish va keshlash
+- ✅ **Yaxlit Mozaika**: Avtomatik plitka birlashtiruvi
+- ✅ **Ko'pburchakka Kesish**: Aniq chegara ekstraktsiyasi
+- ✅ **ArcGIS Moslik**: ArcMap 10.8 va ArcGIS Pro bilan to'liq moslik
+- ✅ **Professional Eksport**: CRS, siqish va ko'rinishlar bilan GeoTIFF
+- ✅ **Paketli Ishlov**: Bir nechta ko'pburchakni navbatda qayta ishlash
+- ✅ **Zamonaviy Interfeys**: Professional qorong'i/yorug' mavzular
+
+**🌍 English Interface:**
+- ✅ **Interactive Map**: Draw polygons directly on Folium-based map
+- ✅ **Multiple Input Formats**: Manual entry, TXT, CSV, Shapefile (.shp), GeoJSON
+- ✅ **Flexible Coordinate Systems**: WGS84, UTM zones, custom projections
+- ✅ **Automatic Tile Calculation**: Optimal zoom level and tile selection
+- ✅ **Multi-Threaded Downloads**: Fast, concurrent tile downloading with caching
+- ✅ **Seamless Mosaicking**: Automatic tile merging with no visible seams
+- ✅ **Polygon Clipping**: Precise boundary extraction
+- ✅ **ArcGIS Compatibility**: Full compatibility with ArcMap 10.8 and ArcGIS Pro
+- ✅ **Professional Export**: GeoTIFF with embedded CRS, compression, and overviews
+- ✅ **Batch Processing**: Process multiple polygons in queue
+- ✅ **Modern UI**: Professional dark/light themes
 
 ## 🎯 Use Cases
 
@@ -88,7 +115,26 @@ pip install -r requirements.txt
 python -m app.main
 ```
 
-## 🚀 Quick Start Guide
+## 🚀 Tezkor Boshlash | Quick Start Guide
+
+### 📖 O'zbek Tilida To'liq Qo'llanma
+
+**[ISHGA_TUSHIRISH.md](ISHGA_TUSHIRISH.md)** - To'liq ishga tushirish ko'rsatmalari o'zbek tilida
+
+### Tezkor Test:
+
+```bash
+# 1. Kutubxonalarni tekshirish
+python test_dependencies.py
+
+# 2. Yetishmayotganlarni o'rnatish
+pip install folium branca PyQt6-WebEngine
+
+# 3. Ishga tushirish
+python -m app.main
+```
+
+---
 
 ### 1. Input Coordinates
 
