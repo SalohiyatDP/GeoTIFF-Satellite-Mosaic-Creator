@@ -18,9 +18,10 @@ from app.gui.widgets.imagery_panel import ImageryPanel
 from app.gui.widgets.download_panel import DownloadPanel
 from app.gui.widgets.export_panel import ExportPanel
 from app.gui.widgets.log_console import LogConsole
-from app.gui.widgets.map_preview import MapPreviewWidget
+from app.gui.widgets.interactive_map import InteractiveMapWidget
 from app.core.config import ConfigManager
 from app.core.models import Project
+from app.core.translations import t, get_translator
 
 
 class MainWindow(QMainWindow):
@@ -53,7 +54,7 @@ class MainWindow(QMainWindow):
     
     def _setup_ui(self):
         """Setup user interface."""
-        self.setWindowTitle("GeoTIFF Satellite Mosaic Creator")
+        self.setWindowTitle(t("app.title"))
         self.setGeometry(100, 100, 1400, 900)
         
         # Central widget
@@ -79,11 +80,11 @@ class MainWindow(QMainWindow):
         self.export_panel = ExportPanel()
         
         # Add tabs
-        left_tabs.addTab(self.coordinate_panel, "Coordinates")
-        left_tabs.addTab(self.polygon_panel, "Polygon")
-        left_tabs.addTab(self.imagery_panel, "Imagery")
-        left_tabs.addTab(self.download_panel, "Download")
-        left_tabs.addTab(self.export_panel, "Export")
+        left_tabs.addTab(self.coordinate_panel, t("tabs.coordinates"))
+        left_tabs.addTab(self.polygon_panel, t("tabs.polygon"))
+        left_tabs.addTab(self.imagery_panel, t("tabs.imagery"))
+        left_tabs.addTab(self.download_panel, t("tabs.download"))
+        left_tabs.addTab(self.export_panel, t("tabs.export"))
         
         # Right side - Map preview and console
         right_widget = QWidget()
@@ -91,8 +92,8 @@ class MainWindow(QMainWindow):
         right_layout.setContentsMargins(0, 0, 0, 0)
         right_layout.setSpacing(5)
         
-        # Map preview
-        self.map_preview = MapPreviewWidget()
+        # Interactive map
+        self.map_preview = InteractiveMapWidget()
         right_layout.addWidget(self.map_preview, stretch=3)
         
         # Log console
@@ -113,61 +114,61 @@ class MainWindow(QMainWindow):
         menubar = self.menuBar()
         
         # File menu
-        file_menu = menubar.addMenu("&File")
+        file_menu = menubar.addMenu(t("menu.file.title"))
         
-        new_action = QAction("&New Project", self)
+        new_action = QAction(t("menu.file.new"), self)
         new_action.setShortcut("Ctrl+N")
         new_action.triggered.connect(self.new_project)
         file_menu.addAction(new_action)
         
-        open_action = QAction("&Open Project...", self)
+        open_action = QAction(t("menu.file.open"), self)
         open_action.setShortcut("Ctrl+O")
         open_action.triggered.connect(self.open_project)
         file_menu.addAction(open_action)
         
-        save_action = QAction("&Save Project", self)
+        save_action = QAction(t("menu.file.save"), self)
         save_action.setShortcut("Ctrl+S")
         save_action.triggered.connect(self.save_project)
         file_menu.addAction(save_action)
         
-        save_as_action = QAction("Save Project &As...", self)
+        save_as_action = QAction(t("menu.file.save_as"), self)
         save_as_action.setShortcut("Ctrl+Shift+S")
         save_as_action.triggered.connect(self.save_project_as)
         file_menu.addAction(save_as_action)
         
         file_menu.addSeparator()
         
-        exit_action = QAction("E&xit", self)
+        exit_action = QAction(t("menu.file.exit"), self)
         exit_action.setShortcut("Alt+F4")
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
         
         # Edit menu
-        edit_menu = menubar.addMenu("&Edit")
+        edit_menu = menubar.addMenu(t("menu.edit.title"))
         
-        settings_action = QAction("&Settings...", self)
+        settings_action = QAction(t("menu.edit.settings"), self)
         settings_action.triggered.connect(self.show_settings)
         edit_menu.addAction(settings_action)
         
         # View menu
-        view_menu = menubar.addMenu("&View")
+        view_menu = menubar.addMenu(t("menu.view.title"))
         
-        dark_theme_action = QAction("&Dark Theme", self)
+        dark_theme_action = QAction(t("menu.view.dark_theme"), self)
         dark_theme_action.triggered.connect(lambda: self.change_theme("dark"))
         view_menu.addAction(dark_theme_action)
         
-        light_theme_action = QAction("&Light Theme", self)
+        light_theme_action = QAction(t("menu.view.light_theme"), self)
         light_theme_action.triggered.connect(lambda: self.change_theme("light"))
         view_menu.addAction(light_theme_action)
         
         # Help menu
-        help_menu = menubar.addMenu("&Help")
+        help_menu = menubar.addMenu(t("menu.help.title"))
         
-        about_action = QAction("&About", self)
+        about_action = QAction(t("menu.help.about"), self)
         about_action.triggered.connect(self.show_about)
         help_menu.addAction(about_action)
         
-        user_guide_action = QAction("&User Guide", self)
+        user_guide_action = QAction(t("menu.help.user_guide"), self)
         user_guide_action.triggered.connect(self.show_user_guide)
         help_menu.addAction(user_guide_action)
     
@@ -178,41 +179,41 @@ class MainWindow(QMainWindow):
         self.addToolBar(toolbar)
         
         # New project
-        new_action = QAction("New", self)
-        new_action.setToolTip("New Project (Ctrl+N)")
+        new_action = QAction(t("toolbar.new"), self)
+        new_action.setToolTip(t("menu.file.new") + " (Ctrl+N)")
         new_action.triggered.connect(self.new_project)
         toolbar.addAction(new_action)
         
         # Open project
-        open_action = QAction("Open", self)
-        open_action.setToolTip("Open Project (Ctrl+O)")
+        open_action = QAction(t("toolbar.open"), self)
+        open_action.setToolTip(t("menu.file.open") + " (Ctrl+O)")
         open_action.triggered.connect(self.open_project)
         toolbar.addAction(open_action)
         
         # Save project
-        save_action = QAction("Save", self)
-        save_action.setToolTip("Save Project (Ctrl+S)")
+        save_action = QAction(t("toolbar.save"), self)
+        save_action.setToolTip(t("menu.file.save") + " (Ctrl+S)")
         save_action.triggered.connect(self.save_project)
         toolbar.addAction(save_action)
         
         toolbar.addSeparator()
         
         # Start processing
-        self.start_action = QAction("Start", self)
-        self.start_action.setToolTip("Start Processing")
+        self.start_action = QAction(t("toolbar.start"), self)
+        self.start_action.setToolTip(t("toolbar.start"))
         self.start_action.triggered.connect(self.start_processing)
         toolbar.addAction(self.start_action)
         
         # Stop processing
-        self.stop_action = QAction("Stop", self)
-        self.stop_action.setToolTip("Stop Processing")
+        self.stop_action = QAction(t("toolbar.stop"), self)
+        self.stop_action.setToolTip(t("toolbar.stop"))
         self.stop_action.triggered.connect(self.stop_processing)
         self.stop_action.setEnabled(False)
         toolbar.addAction(self.stop_action)
     
     def _setup_statusbar(self):
         """Setup status bar."""
-        self.statusBar().showMessage("Ready")
+        self.statusBar().showMessage(t("app.ready"))
     
     def _apply_theme(self):
         """Apply theme to application."""
@@ -242,8 +243,8 @@ class MainWindow(QMainWindow):
         if self.current_project:
             reply = QMessageBox.question(
                 self,
-                "New Project",
-                "Current project will be closed. Continue?",
+                t("messages.new_project"),
+                t("messages.current_project_close"),
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
             )
             
@@ -255,19 +256,19 @@ class MainWindow(QMainWindow):
         self.polygon_panel.clear()
         self.download_panel.clear()
         self.export_panel.clear()
-        self.map_preview.clear()
+        self.map_preview.clear_map()
         
         self.current_project = None
-        self.statusBar().showMessage("New project created")
+        self.statusBar().showMessage(t("messages.new_project_created"))
         self.logger.info("New project created")
     
     def open_project(self):
         """Open existing project."""
         file_path, _ = QFileDialog.getOpenFileName(
             self,
-            "Open Project",
+            t("messages.open_project"),
             str(Path.home()),
-            "Project Files (*.gmproj);;All Files (*.*)"
+            t("messages.project_files")
         )
         
         if not file_path:
@@ -280,14 +281,14 @@ class MainWindow(QMainWindow):
             # Load project data into panels
             # TODO: Implement project loading
             
-            self.statusBar().showMessage(f"Project opened: {file_path}")
+            self.statusBar().showMessage(t("messages.project_opened").format(path=file_path))
             self.logger.info(f"Project opened: {file_path}")
             
         except Exception as e:
             QMessageBox.critical(
                 self,
-                "Error",
-                f"Failed to open project: {str(e)}"
+                t("polygon_panel.error"),
+                t("errors.failed_to_open").format(error=str(e))
             )
             self.logger.error(f"Failed to open project: {str(e)}")
     
@@ -298,16 +299,16 @@ class MainWindow(QMainWindow):
             return
         
         # TODO: Implement project saving
-        self.statusBar().showMessage("Project saved")
+        self.statusBar().showMessage(t("messages.project_saved"))
         self.logger.info("Project saved")
     
     def save_project_as(self):
         """Save project with new name."""
         file_path, _ = QFileDialog.getSaveFileName(
             self,
-            "Save Project As",
+            t("messages.save_project_as"),
             str(Path.home()),
-            "Project Files (*.gmproj)"
+            t("messages.project_files")
         )
         
         if not file_path:
@@ -321,7 +322,7 @@ class MainWindow(QMainWindow):
         """Start mosaic generation processing."""
         self.start_action.setEnabled(False)
         self.stop_action.setEnabled(True)
-        self.statusBar().showMessage("Processing started...")
+        self.statusBar().showMessage(t("messages.processing_started"))
         
         # TODO: Implement processing workflow
         
@@ -331,7 +332,7 @@ class MainWindow(QMainWindow):
         """Stop processing."""
         self.start_action.setEnabled(True)
         self.stop_action.setEnabled(False)
-        self.statusBar().showMessage("Processing stopped")
+        self.statusBar().showMessage(t("messages.processing_stopped"))
         
         # TODO: Implement stop logic
         
@@ -342,8 +343,8 @@ class MainWindow(QMainWindow):
         # TODO: Implement settings dialog
         QMessageBox.information(
             self,
-            "Settings",
-            "Settings dialog not yet implemented"
+            t("messages.settings"),
+            t("messages.settings_not_implemented")
         )
     
     def change_theme(self, theme: str):
@@ -351,7 +352,7 @@ class MainWindow(QMainWindow):
         self.config_manager.config.theme = theme
         self.config_manager.save()
         self._apply_theme()
-        self.statusBar().showMessage(f"Theme changed to {theme}")
+        self.statusBar().showMessage(t("messages.theme_changed").format(theme=theme))
         self.logger.info(f"Theme changed to {theme}")
     
     def show_about(self):
@@ -360,18 +361,18 @@ class MainWindow(QMainWindow):
         
         QMessageBox.about(
             self,
-            "About GeoTIFF Mosaic Creator",
-            f"<h2>GeoTIFF Satellite Mosaic Creator</h2>"
-            f"<p>Version {__version__}</p>"
-            f"<p>A professional desktop GIS application for generating "
-            f"georeferenced satellite image mosaics from polygon coordinates.</p>"
-            f"<p><b>Features:</b></p>"
+            t("messages.about"),
+            f"<h2>{t('app.title')}</h2>"
+            f"<p>Versiya {__version__}</p>"
+            f"<p>Sun'iy yo'ldosh tasvirlaridan georeferenslangan mozaikalar yaratish uchun professional GIS dasturi.</p>"
+            f"<p><b>Imkoniyatlar:</b></p>"
             f"<ul>"
-            f"<li>Multiple coordinate input formats</li>"
-            f"<li>Automatic tile calculation and download</li>"
-            f"<li>Seamless mosaic generation</li>"
-            f"<li>Polygon clipping</li>"
-            f"<li>ArcGIS-compatible GeoTIFF export</li>"
+            f"<li>Turli xil koordinata kiritish formatlari</li>"
+            f"<li>Avtomatik plitka hisoblash va yuklab olish</li>"
+            f"<li>Yaxlit mozaika yaratish</li>"
+            f"<li>Ko'pburchakka kesish</li>"
+            f"<li>ArcGIS-mos GeoTIFF eksport</li>"
+            f"<li>Interaktiv xaritada polygon chizish</li>"
             f"</ul>"
         )
     
@@ -380,8 +381,8 @@ class MainWindow(QMainWindow):
         # TODO: Implement user guide
         QMessageBox.information(
             self,
-            "User Guide",
-            "User guide not yet implemented"
+            t("messages.user_guide"),
+            t("messages.guide_not_implemented")
         )
     
     def closeEvent(self, event):
@@ -389,8 +390,8 @@ class MainWindow(QMainWindow):
         if self.current_project:
             reply = QMessageBox.question(
                 self,
-                "Exit",
-                "Do you want to save the current project before exiting?",
+                t("messages.exit_save"),
+                t("messages.save_before_exit"),
                 QMessageBox.StandardButton.Yes | 
                 QMessageBox.StandardButton.No | 
                 QMessageBox.StandardButton.Cancel
