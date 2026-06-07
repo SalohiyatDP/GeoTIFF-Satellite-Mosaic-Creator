@@ -48,9 +48,14 @@ class InteractiveMapWidget(QWidget):
         self._setup_ui()
         
         if FOLIUM_AVAILABLE:
-            self._create_map()
+            try:
+                self._create_map()
+                self.logger.info("Xarita muvaffaqiyatli yaratildi")
+            except Exception as e:
+                self.logger.error(f"Xarita yaratishda xatolik: {str(e)}", exc_info=True)
+                self._show_error_message(str(e))
         else:
-            self.logger.warning("Folium not available - map features disabled")
+            self.logger.warning("Folium kutubxonasi o'rnatilmagan - xarita funksiyalari ishlamaydi")
     
     def _setup_ui(self):
         """Setup user interface."""
@@ -98,13 +103,41 @@ class InteractiveMapWidget(QWidget):
             layout.addWidget(instructions)
         else:
             placeholder = QLabel(
-                "Folium kutubxonasi o'rnatilmagan.\n\n"
-                "O'rnatish: pip install folium\n\n"
-                "Interaktiv xarita funksiyalari mavjud bo'lmaydi."
+                "❌ Folium kutubxonasi o'rnatilmagan!\n\n"
+                "Xarita ko'rish uchun o'rnating:\n\n"
+                "pip install folium branca\n"
+                "pip install PyQt6-WebEngine\n\n"
+                "Keyin dasturni qayta ishga tushiring."
             )
             placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            placeholder.setStyleSheet("border: 1px solid #555555; padding: 20px;")
+            placeholder.setStyleSheet(
+                "border: 2px solid #e74c3c; "
+                "background-color: #3c3c3c; "
+                "color: #e74c3c; "
+                "padding: 30px; "
+                "font-size: 11pt; "
+                "border-radius: 10px;"
+            )
             layout.addWidget(placeholder)
+    
+    def _show_error_message(self, error: str):
+        """Show error message in map area."""
+        error_label = QLabel(
+            f"❌ Xarita yuklashda xatolik!\n\n"
+            f"Xatolik: {error}\n\n"
+            f"Yechim:\n"
+            f"1. pip install folium PyQt6-WebEngine\n"
+            f"2. Dasturni qayta ishga tushiring"
+        )
+        error_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        error_label.setStyleSheet(
+            "border: 2px solid #e74c3c; "
+            "background-color: #3c3c3c; "
+            "color: #e74c3c; "
+            "padding: 20px; "
+            "font-size: 10pt;"
+        )
+        self.layout().addWidget(error_label)
     
     def _create_map(self):
         """Create Folium map with drawing tools."""
